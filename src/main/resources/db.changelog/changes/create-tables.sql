@@ -5,7 +5,7 @@ CREATE TABLE pizza_data
 (
     id    varchar(36) PRIMARY KEY,
     pizza_name  varchar(30),
-    size        varchar(20),
+    size        varchar(10),
     price       float,
     description varchar(300),
     created_at  timestamp

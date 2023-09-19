@@ -8,22 +8,45 @@
    The "Pizza Cafes" project is being developed to create an application that allows users to find pizzerias and order pizza. Users will be able to search for pizzas by name, view the cafe menu, and place orders within the application.
 
 The main goal of the project is to develop a software solution that optimizes operational processes and provides convenience for users in pizza search.
-
-![img.png](img.png)
-
-
-1. Cafe_data
+![DiagrammDB.png](DiagrammDB.png)
+1. Pizza_data
 
 **Schema**
 
-| Field     | Type                | NotNull | Properties | Description   |
-|-----------|---------------------| ------- |------------|---------------|
-| ID        | varchar             | +       | PK,AUTO-INCR | Cafe ID       |
-| cafe_name | varchar(50)         |+|            | Cafe name     |
-| location  | varchar(100)        |+|            | Cafe location |
-| phone     | varchar(20)         |+|            | Cafe phone    |
+| Field   | Type                   |NotNull| Properties   | Description        |     
+|---------|------------------------| --- |--------------|--------------------| 
+| ID      | varchar                | +   | PK,AUTO-INCR | Pizza ID           |     
+| pizza_name | varchar(30)            | +   |              | Pizza name         |       
+| price   | numeric                | +   |              | Pizza price        |     
+| size    | varchar (10)           | +   |              | Pizza Size         |  
+| description | varchar(300)           | +   |              | Pizza description  |  
+| created_at | timestamp w/o timezone |+|              |   time of data entry into the database.                 |
+
+
+2.1.Get a list of all pizzas
+
+2.2.Get a pizza by its name
+
+2.3.Create a new pizza
+
+2.4.Delete a pizza by its ID
+
+2.5.Update a pizza by its ID
+
+
+
+2. Cafe_data
+
+**Schema**
+
+| Field     | Type                   | NotNull | Properties | Description   |
+|-----------|------------------------| ------- |------------|---------------|
+| ID        | varchar                | +       | PK,AUTO-INCR | Cafe ID       |
+| cafe_name | varchar(30)            |+|            | Cafe name     |
+| location  | varchar(100)           |+|            | Cafe location |
+| phone     | varchar(20)            |+|            | Cafe phone    |
 | created_at | timestamp w/o timezone |+|            |time of data entry into the database.            |
-| pizza_data_id | varchar             |+| FK pizza_data =>id |               |
+| pizza_data_id | varchar                |+| FK pizza_data =>id |               |
 	 
 1.1. Get a list of all cafes.
 
@@ -34,31 +57,6 @@ The main goal of the project is to develop a software solution that optimizes op
 1.4. Delete a cafe by ID
 
 1.5. Update cafe information by ID.
-
-	2. Pizza_data
-
-**Schema**
-
-| Field   | Type                   |NotNull| Properties   | Description        |     
-|---------|------------------------| --- |--------------|--------------------| 
-| ID      | varchar                | +   | PK,AUTO-INCR | Pizza ID           |     
-| pizza_name | varchar(30)            | +   |              | Pizza name         |       
-| price   | numeric                | +   |              | Pizza price        |     
-| size    | varchar                | +   |              | Pizza Size         |  
-| description | varchar(300)           | +   |              | Pizza description  |  
-| created_at | timestamp w/o timezone |+|              |   time of data entry into the database.                 |
-
-
-2.1.Get a list of all pizzas 
-
-2.2.Get a pizza by its name
-
-2.3.Create a new pizza
-
-2.4.Delete a pizza by its ID
-
-2.5.Update a pizza by its ID
-
 
 	
 4. Customer_data
@@ -97,7 +95,7 @@ The main goal of the project is to develop a software solution that optimizes op
 | customer_data_id | varchar           | +   | FK customer_data=>id |  |       
 | created_at       | timestamp w/o timezone | +   |              |time of data entry into the database.  |     
 
-
+6. 
    5.1 Create a new order.
 
    5.2 Delete an order by its ID.
