@@ -41,11 +41,19 @@ public class CafeServiceImpl implements CafeService {
      */
     @Override
     public List<CafeDto> getCafeList() {
-        return cafeRepository.findAll().stream()
+        List<Cafe> cafes=cafeRepository.findAll();
+        return cafes.stream()
                 .map(cafeMapper::toDTO)
                 .collect(Collectors.toList());
     }
-
+/**@Override
+public List<OrderDto> getAllOrders() {
+List<Order> orders = orderRepository.findAll();
+return orders.stream()
+.map(orderMapper::toDto)
+.collect(Collectors.toList());
+}
+ */
     /**
      * Get cafe information by ID.
      *

@@ -29,5 +29,8 @@ public class Pizza {
     @Column(name = "created_at")
     private LocalDateTime created;
 
+    @ManyToOne
+    @JoinColumn(name = "cafe_id", referencedColumnName = "id")
+    private Cafe cafe;
 }
 

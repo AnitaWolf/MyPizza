@@ -32,7 +32,7 @@ public class Cafe {
     @Column(name = "created_at")
     private LocalDateTime created;
 
-    @ManyToOne
-    @JoinColumn(name = "pizza_id", referencedColumnName = "id")
-    private Pizza  pizza;
+//    @ManyToOne
+//    @JoinColumn(name = "pizza_id", referencedColumnName = "id")
+//    private Pizza  pizza;
 }

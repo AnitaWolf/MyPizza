@@ -27,6 +27,7 @@ public class CafeController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<CafeDto> getAllCafes() {
+
         return cafeService.getCafeList();
     }
 

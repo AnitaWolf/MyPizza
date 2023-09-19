@@ -1,5 +1,6 @@
 package com.example.mypizza.dto;
 
+import com.example.mypizza.model.Cafe;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,4 +19,7 @@ public class PizzaDto {
 
     private LocalDateTime created;
 
+    private Cafe cafe;
+
 }
+
