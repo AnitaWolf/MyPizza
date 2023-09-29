@@ -1,12 +1,10 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.OrderDto;
-import com.example.mypizza.model.Pizza;
+import com.example.mypizza.model.Order;
 import com.example.mypizza.service.util.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -20,15 +18,39 @@ public class OrderController {
     private final OrderService orderService;
 
     /**
+     * Get a list of all orders.
+     *
+     * @return List of OrderDto containing order information
+     */
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+
+    /**
+     * Get an order by its ID.
+     *
+     * @param id ID of the order to retrieve
+     * @return Order containing order information
+     */
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Order getOrderById(@PathVariable String id) {
+        return orderService.getOrderById(id);
+    }
+
+    /**
      * Create a new order.
      *
-     * @param orderDto The order details to create
-     * @return OrderDto containing created order information
+     * @param order The order details to create
+     * @return Order containing created order information
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto addOrder(@RequestBody OrderDto orderDto) {
-        return orderService.addOrder(orderDto);
+    public Order addOrder(@RequestBody Order order) {
+        return orderService.addOrder(order);
     }
 
     /**
@@ -43,25 +65,14 @@ public class OrderController {
     }
 
     /**
-     * Get an order by its ID.
+     * Updates an existing order.
      *
-     * @param id ID of the order to retrieve
-     * @return OrderDto containing order information
+     * @param order The updated order information.
+     * @return The updated order.
      */
-    @GetMapping("/{id}")
-    public OrderDto getOrderById(@PathVariable String id) {
-        return orderService.getOrderById(id);
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Order updateOrder(@RequestBody Order order) {
+        return orderService.updateOrder(order);
     }
-
-    /**
-     * Get a list of all orders.
-     *
-     * @return List of OrderDto containing order information
-     */
-    @GetMapping
-    public List<OrderDto> getAllOrders() {
-
-        return orderService.getAllOrders();
-    }
-
 }

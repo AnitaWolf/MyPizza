@@ -1,6 +1,5 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.CustomerDto;
 import com.example.mypizza.model.Customer;
 import com.example.mypizza.service.util.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,9 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,33 +28,33 @@ class CustomerControllerTest {
     @Test
     void getCustomerList() {
 
-        List<CustomerDto> customerDtoList = new ArrayList<>();
-        when(customerService.getCustomerList()).thenReturn(customerDtoList);
+        List<Customer> customerList = new ArrayList<>();
+        when(customerService.getCustomerList()).thenReturn(customerList);
 
-        List<CustomerDto> result = customerController.getCustomerList();
+        List<Customer> result = customerController.getAllCustomers();
 
-        assertEquals(customerDtoList, result);
+        assertEquals(customerList, result);
     }
 
     @Test
     void getCustomerByName() {
         String customerName = "John Doe";
-        CustomerDto customerDto = new CustomerDto();
-        when(customerService.getCustomerByName(customerName)).thenReturn(customerDto);
+        Customer customer = new Customer();
+        when(customerService.getCustomerByName(customerName)).thenReturn(customer);
 
-        CustomerDto result = customerController.getCustomerByName(customerName);
+        Customer result = customerController.getCustomerByName(customerName);
 
-        assertEquals(customerDto, result);
+        assertEquals(customer, result);
     }
 
     @Test
     void addCustomer() {
-        CustomerDto customerDto = new CustomerDto();
-        when(customerService.addCustomer(customerDto)).thenReturn(customerDto);
+        Customer customer = new Customer();
+        when(customerService.addCustomer(customer)).thenReturn(customer);
 
-        CustomerDto result = customerController.addCustomer(customerDto);
+        Customer result = customerController.createCustomer(customer);
 
-        assertEquals(customerDto, result);
+        assertEquals(customer, result);
     }
 
     @Test
@@ -73,12 +69,12 @@ class CustomerControllerTest {
     @Test
     void updateCustomer() {
         String customerId = "123";
-        CustomerDto customerDto = new CustomerDto();
-        when(customerService.updateCustomer(customerDto, customerId)).thenReturn(customerDto);
+        Customer customer = new Customer();
+        when(customerService.updateCustomer(customer, customerId)).thenReturn(customer);
 
-        CustomerDto result = customerController.updateCustomer(customerId, customerDto);
+        Customer result = customerController.updateCustomer(customerId, customer);
 
-        assertEquals(customerDto, result);
+        assertEquals(customer, result);
     }
 }
 

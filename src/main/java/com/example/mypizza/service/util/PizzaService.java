@@ -1,6 +1,8 @@
 package com.example.mypizza.service.util;
 
-import com.example.mypizza.dto.PizzaDto;
+
+
+import com.example.mypizza.model.Pizza;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,13 +10,19 @@ import java.util.List;
 @Service
 public interface PizzaService {
 
-    List<PizzaDto> getPizzaList();
+    List<Pizza> getPizzaList();
+    Pizza findPizzaById(String id);
 
-    PizzaDto getPizzaByName(String name);
+    Pizza getPizzaByName(String name);
 
-    PizzaDto addPizza(PizzaDto pizzaDto);
+    Pizza addPizza(Pizza pizza);
 
     void deletePizzaById(String id);
 
-    PizzaDto updatePizza(PizzaDto pizzaDto, String id);
+    Pizza updatePizza(Pizza pizza, String id);
+
+    List<Pizza> findAllByCafeId(String cafeId);
+
+
+
 }

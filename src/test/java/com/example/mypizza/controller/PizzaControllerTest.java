@@ -1,13 +1,14 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.PizzaDto;
+
+
+import com.example.mypizza.model.Pizza;
 import com.example.mypizza.service.util.PizzaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +31,11 @@ class PizzaControllerTest {
     @Test
     void testGetAllPizzas() {
         // Arrange
-        List<PizzaDto> pizzas = new ArrayList<>();
+        List<Pizza> pizzas = new ArrayList<>();
         when(pizzaService.getPizzaList()).thenReturn(pizzas);
 
         // Act
-        List<PizzaDto> result = pizzaController.getAllPizzas();
+        List<Pizza> result = pizzaController.getAllPizzas();
 
         // Assert
         assertEquals(pizzas, result);
@@ -45,29 +46,29 @@ class PizzaControllerTest {
     void testGetPizzasByName() {
         // Arrange
         String pizzaName = "Margherita";
-        PizzaDto pizzaDto = new PizzaDto();
-        when(pizzaService.getPizzaByName(pizzaName)).thenReturn(pizzaDto);
+        Pizza pizza = new Pizza();
+        when(pizzaService.getPizzaByName(pizzaName)).thenReturn(pizza);
 
         // Act
-        PizzaDto result = pizzaController.getPizzasByName(pizzaName);
+        Pizza result = pizzaController.getPizzaByName(pizzaName);
 
         // Assert
-        assertEquals(pizzaDto, result);
+        assertEquals(pizza, result);
         verify(pizzaService, times(1)).getPizzaByName(pizzaName);
     }
 
     @Test
     void testCreatePizza() {
         // Arrange
-        PizzaDto pizzaDto = new PizzaDto();
-        when(pizzaService.addPizza(pizzaDto)).thenReturn(pizzaDto);
+        Pizza pizza = new Pizza();
+        when(pizzaService.addPizza(pizza)).thenReturn(pizza);
 
         // Act
-        PizzaDto result = pizzaController.createPizza(pizzaDto);
+        Pizza result = pizzaController.createPizza(pizza);
 
         // Assert
-        assertEquals(pizzaDto, result);
-        verify(pizzaService, times(1)).addPizza(pizzaDto);
+        assertEquals(pizza, result);
+        verify(pizzaService, times(1)).addPizza(pizza);
     }
 
     @Test
@@ -87,14 +88,14 @@ class PizzaControllerTest {
     void testUpdatePizza() {
         // Arrange
         String pizzaId = "123";
-        PizzaDto pizzaDto = new PizzaDto();
-        when(pizzaService.updatePizza(pizzaDto, pizzaId)).thenReturn(pizzaDto);
+        Pizza pizza = new Pizza();
+        when(pizzaService.updatePizza(pizza, pizzaId)).thenReturn(pizza);
 
         // Act
-        PizzaDto result = pizzaController.updatePizza(pizzaId, pizzaDto);
+        Pizza result = pizzaController.updatePizza(pizzaId, pizza);
 
         // Assert
-        assertEquals(pizzaDto, result);
-        verify(pizzaService, times(1)).updatePizza(pizzaDto, pizzaId);
+        assertEquals(pizza, result);
+        verify(pizzaService, times(1)).updatePizza(pizza, pizzaId);
     }
 }

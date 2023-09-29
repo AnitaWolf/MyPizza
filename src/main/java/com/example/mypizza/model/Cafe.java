@@ -1,9 +1,13 @@
 package com.example.mypizza.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 import static jakarta.persistence.CascadeType.*;
@@ -32,7 +36,7 @@ public class Cafe {
     @Column(name = "created_at")
     private LocalDateTime created;
 
-//    @ManyToOne
-//    @JoinColumn(name = "pizza_id", referencedColumnName = "id")
-//    private Pizza  pizza;
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER)
+    private List<Pizza> pizzaList;
+
 }

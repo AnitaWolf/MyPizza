@@ -1,6 +1,8 @@
 package com.example.mypizza.service.util;
 
-import com.example.mypizza.dto.CafeDto;
+
+import com.example.mypizza.model.Cafe;
+import com.example.mypizza.model.Pizza;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,13 +10,16 @@ import java.util.List;
 @Service
 public interface CafeService {
 
-    List<CafeDto> getCafeList();
+    List<Cafe> getCafeList();
 
-    CafeDto getCafeById(String id);
+    Cafe getCafeById(String id);
 
-    CafeDto addCafe(CafeDto cafeDto);
+    Cafe addCafe(Cafe cafe);
 
     void deleteCafeById(String id);
 
-    CafeDto updateCafe(CafeDto cafeDto, String id);
+    Cafe updateCafe(Cafe cafe, String id);
+
+    Cafe findCafeByPizzaName(String pizzaName);
+    List<Pizza> findPizzasByCafeName(String cafeName);
 }

@@ -1,6 +1,7 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.OrderDto;
+
+import com.example.mypizza.model.Order;
 import com.example.mypizza.service.util.OrderService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,10 +29,10 @@ class OrderControllerTest {
 
     @Test
     void addOrder() {
-        OrderDto orderDto = new OrderDto();  // Create a sample OrderDto
+        Order orderDto = new Order();  // Create a sample OrderDto
         when(orderService.addOrder(orderDto)).thenReturn(orderDto);
 
-        OrderDto result = orderController.addOrder(orderDto);
+        Order result = orderController.addOrder(orderDto);
 
         assertEquals(orderDto, result);
         verify(orderService, times(1)).addOrder(orderDto);
@@ -50,10 +51,10 @@ class OrderControllerTest {
     @Test
     void getOrderById() {
         String orderId = "123";
-        OrderDto orderDto = new OrderDto();  // Create a sample OrderDto
+        Order orderDto = new Order();  // Create a sample OrderDto
         when(orderService.getOrderById(orderId)).thenReturn(orderDto);
 
-        OrderDto result = orderController.getOrderById(orderId);
+        Order result = orderController.getOrderById(orderId);
 
         assertEquals(orderDto, result);
         verify(orderService, times(1)).getOrderById(orderId);
@@ -61,10 +62,10 @@ class OrderControllerTest {
 
     @Test
     void getAllOrders() {
-        List<OrderDto> orderDtoList = new ArrayList<>();  // Create a sample list of OrderDto
+        List<Order> orderDtoList = new ArrayList<>();  // Create a sample list of OrderDto
         when(orderService.getAllOrders()).thenReturn(orderDtoList);
 
-        List<OrderDto> result = orderController.getAllOrders();
+        List<Order> result = orderController.getAllOrders();
 
         assertEquals(orderDtoList, result);
         verify(orderService, times(1)).getAllOrders();

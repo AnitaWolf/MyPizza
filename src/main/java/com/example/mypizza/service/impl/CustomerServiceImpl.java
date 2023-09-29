@@ -1,7 +1,6 @@
 package com.example.mypizza.service.impl;
 
-import com.example.mypizza.dto.CustomerDto;
-import com.example.mypizza.mapper.CustomerMapper;
+
 import com.example.mypizza.model.Customer;
 import com.example.mypizza.repository.CustomerRepository;
 import com.example.mypizza.service.exeption.CustomerNotFoundException;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final CustomerMapper customerMapper;
+
 
     /**
      * Get a list of all customers.
@@ -31,10 +29,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @return List of CustomerDto containing customer information
      */
     @Override
-    public List<CustomerDto> getCustomerList() {
-        return customerRepository.findAll().stream()
-                .map(customerMapper::toDto)
-                .collect(Collectors.toList());
+    public List<Customer> getCustomerList() {
+        return customerRepository.findAll();
     }
 
     /**
@@ -45,22 +41,23 @@ public class CustomerServiceImpl implements CustomerService {
      * @throws CustomerNotFoundException if the customer with the given name is not found
      */
     @Override
-    public CustomerDto getCustomerByName(String customerName) {
-        Optional<Customer> customerOptional = customerRepository.findByName(customerName);
-        return customerOptional.map(customerMapper::toDto).orElseThrow(() ->
-                new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND));
+    public Customer getCustomerByName(String customerName) {
+        Optional<Customer> customerOptional = customerRepository.findCustomerByName(customerName);
+        if (customerOptional.isPresent()) {
+            return customerOptional.get();
+        } else
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
     }
 
     /**
      * Add a new customer.
      *
-     * @param customerDto The customer details to create
+     * @param customer The customer details to create
      * @return CustomerDto containing created customer information
      */
     @Override
-    public CustomerDto addCustomer(CustomerDto customerDto) {
-        Customer customer = customerMapper.toEntity(customerDto);
-        return customerMapper.toDto(customer);
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     /**
@@ -82,20 +79,26 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Update a customer by their ID.
      *
-     * @param customerDto The updated customer details
-     * @param id ID of the customer to update
+     * @param updatecustomer The updated customer details
+     * @param id             ID of the customer to update
      * @return CustomerDto containing updated customer information
      * @throws CustomerNotFoundException if the customer with the given ID is not found
      */
     @Override
-    public CustomerDto updateCustomer(CustomerDto customerDto, String id) {
-        Optional<Customer> existingCustomer = customerRepository.findCustomerById(id);
-        Customer customer = customerMapper.toEntity(customerDto);
-        if (existingCustomer.isPresent()) {
-            customerDto.setId(id);
-            return customerMapper.toDto(customerRepository.save(customer));
-        } else {
+    public Customer updateCustomer(Customer updatecustomer, String id) {
+        Optional<Customer> optionalCustomer = customerRepository.findCustomerById(id);
+
+        if (optionalCustomer.isPresent()) {
+            Customer existingcustomer = optionalCustomer.get();
+
+            existingcustomer.setName(updatecustomer.getName());
+            existingcustomer.setLocation(updatecustomer.getLocation());
+            existingcustomer.setPhone(updatecustomer.getPhone());
+            existingcustomer.setPassword(updatecustomer.getPassword());
+            existingcustomer.setEmail(updatecustomer.getEmail());
+            existingcustomer.setCreated(updatecustomer.getCreated());
+            return customerRepository.save(existingcustomer);
+        } else
             throw new CustomerNotFoundException(ErrorMessage.ID_NOT_FOUND);
-        }
     }
 }

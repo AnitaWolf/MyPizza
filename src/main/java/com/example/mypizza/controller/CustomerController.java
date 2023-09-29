@@ -1,6 +1,7 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.CustomerDto;
+
+import com.example.mypizza.model.Customer;
 import com.example.mypizza.service.util.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,31 +26,33 @@ public class CustomerController {
      * @return List of CustomerDto containing customer information
      */
     @GetMapping
-    public List<CustomerDto> getCustomerList() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Customer> getAllCustomers() {
         return customerService.getCustomerList();
     }
 
     /**
-     * Get a customer by their name.
+     * Get a customer by  name.
      *
      * @param name Name of the customer to retrieve
      * @return CustomerDto containing customer information
      */
     @GetMapping("/byName/{name}")
-    public CustomerDto getCustomerByName(@PathVariable String name) {
+    @ResponseStatus(HttpStatus.OK)
+    public Customer getCustomerByName(@PathVariable String name) {
         return customerService.getCustomerByName(name);
     }
 
     /**
      * Create a new customer.
      *
-     * @param customerDto The customer details to create
+     * @param customer The customer details to create
      * @return CustomerDto containing created customer information
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDto addCustomer(@RequestBody CustomerDto customerDto) {
-        return customerService.addCustomer(customerDto);
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return customerService.addCustomer(customer);
     }
 
     /**
@@ -67,11 +70,11 @@ public class CustomerController {
      * Update a customer by their ID.
      *
      * @param id ID of the customer to update
-     * @param customerDto The updated customer details
+     * @param customer The updated customer details
      * @return CustomerDto containing updated customer information
      */
     @PutMapping("/{id}")
-    public CustomerDto updateCustomer(@PathVariable String id, @RequestBody CustomerDto customerDto) {
-        return customerService.updateCustomer(customerDto, id);
+    public Customer updateCustomer(@PathVariable String id, @RequestBody Customer customer) {
+        return customerService.updateCustomer(customer, id);
     }
 }

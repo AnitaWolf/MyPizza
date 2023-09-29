@@ -1,46 +1,47 @@
 --liquibase formatted sql
 --changeset anita:v.0.1.0-ddl
-CREATE TABLE cafe_data
+CREATE TABLE if not exists mypizza1.cafe_data
 (
     id    varchar(36) PRIMARY KEY,
-    cafe_name  varchar(30),
-    location   varchar(100),
-    phone      varchar(20),
-    created_at timestamp,
+    cafe_name  varchar(30) not null ,
+    location   varchar(100) not null ,
+    phone      varchar(20) not null ,
+    created_at timestamp  DEFAULT CURRENT_TIMESTAMP,
     pizza_id varchar(36)
-#     foreign key (pizza_id) references pizza_data (id)
+
 );
-CREATE TABLE pizza_data
+CREATE TABLE if not exists mypizza1.pizza_data
 (
     id    varchar(36) PRIMARY KEY,
-    pizza_name  varchar(30),
-    size        varchar(10),
+    pizza_name  varchar(30) not null ,
+    size        varchar(10) not null ,
     price       numeric,
-    description varchar(300),
-    created_at  timestamp,
-    cafe_id varchar(36) ,
+    description varchar(300) not null ,
+    created_at  timestamp DEFAULT CURRENT_TIMESTAMP,
+    cafe_id varchar(36) not null ,
         foreign key (cafe_id) references cafe_data (id)
+
 );
 
 
-CREATE TABLE customer_data
+CREATE TABLE if not exists mypizza1.customer_data
 (
     id varchar(36) PRIMARY KEY,
-    fullname    varchar(40),
-    phone       varchar(20),
-    email       varchar(20),
-    location    varchar(100),
-    password    varchar(8),
-    created_at  timestamp
+    fullname    varchar(40) not null ,
+    phone       varchar(20) not null ,
+    email       varchar(20) not null ,
+    location    varchar(100) not null ,
+    password    varchar(8) not null ,
+    created_at  timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE order_data
+CREATE TABLE if not exists mypizza1.order_data
 (
     id varchar(36) PRIMARY KEY,
-    created_at  timestamp,
-    customer_id varchar(36),
+    created_at  timestamp DEFAULT CURRENT_TIMESTAMP,
+    customer_id varchar(36) not null ,
     foreign key (customer_id) references customer_data (id)
 );
-CREATE TABLE order_data_pizzas
+CREATE TABLE if not exists mypizza1.order_data_pizzas
 (
     pizza_id varchar(36),
      foreign key (pizza_id) references pizza_data (id),

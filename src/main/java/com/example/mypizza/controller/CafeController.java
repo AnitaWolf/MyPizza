@@ -1,6 +1,8 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.CafeDto;
+
+import com.example.mypizza.model.Cafe;
+import com.example.mypizza.model.Pizza;
 import com.example.mypizza.service.util.CafeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,9 +27,8 @@ public class CafeController {
      * @return List of CafeDto objects representing cafes.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public List<CafeDto> getAllCafes() {
-
+    @GetMapping("admin/all")
+    public List<Cafe> getAllCafes() {
         return cafeService.getCafeList();
     }
 
@@ -39,20 +40,42 @@ public class CafeController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CafeDto getCafeById(@PathVariable String id) {
+    public Cafe getCafeById(@PathVariable String id) {
         return cafeService.getCafeById(id);
+    }
+
+    /**
+     * Retrieve a cafe by the name of a specific pizza.
+     *
+     * @param pizzaName The name of the pizza to find the cafe for.
+     * @return The cafe associated with the given pizza name.
+     */
+    @GetMapping("/byPizzaName/{pizzaName}")
+    public Cafe getCafeByPizzaName(@PathVariable String pizzaName) {
+        return cafeService.findCafeByPizzaName(pizzaName);
+    }
+
+    /**
+     * Retrieve a list of pizzas associated with a cafe by its name.
+     *
+     * @param cafeName The name of the cafe to find pizzas for.
+     * @return List of pizzas associated with the given cafe name.
+     */
+    @GetMapping("/byCafeName/{cafeName}")
+    public List<Pizza> getPizzasByCafeName(@PathVariable String cafeName) {
+        return cafeService.findPizzasByCafeName(cafeName);
     }
 
     /**
      * Create a new cafe.
      *
-     * @param cafeDto The cafe object to be created.
+     * @param cafe The cafe object to be created.
      * @return CafeDto representing the created cafe.
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public CafeDto createCafe(@RequestBody CafeDto cafeDto) {
-        return cafeService.addCafe(cafeDto);
+    @PostMapping("/admin")
+    public Cafe createCafe(@RequestBody Cafe cafe) {
+        return cafeService.addCafe(cafe);
     }
 
     /**
@@ -60,7 +83,7 @@ public class CafeController {
      *
      * @param id The ID of the cafe to be deleted.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("admin/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCafe(@PathVariable String id) {
         cafeService.deleteCafeById(id);
@@ -69,13 +92,13 @@ public class CafeController {
     /**
      * Update cafe information by ID.
      *
-     * @param id      The ID of the cafe to be updated.
-     * @param cafeDto The updated cafe object.
+     * @param id   The ID of the cafe to be updated.
+     * @param cafe The updated cafe object.
      * @return CafeDto representing the updated cafe.
      */
-    @PutMapping("/{id}")
+    @PutMapping("admin/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CafeDto updateCafe(@RequestParam String id, @RequestBody CafeDto cafeDto) {
-        return cafeService.updateCafe(cafeDto, id);
+    public Cafe updateCafe(@PathVariable String id, @RequestBody Cafe cafe) {
+        return cafeService.updateCafe(cafe, id);
     }
 }

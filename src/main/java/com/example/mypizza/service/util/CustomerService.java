@@ -1,20 +1,21 @@
 package com.example.mypizza.service.util;
 
-import com.example.mypizza.dto.CustomerDto;
+
+import com.example.mypizza.model.Customer;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public interface CustomerService {
 
-    List<CustomerDto> getCustomerList();
+    List<Customer> getCustomerList();
 
-    CustomerDto getCustomerByName(String name);
+    Customer getCustomerByName(String name);
 
-    CustomerDto addCustomer(CustomerDto customerDto);
+    Customer addCustomer(Customer customer);
 
     void deleteCustomerById(String id);
 
-    CustomerDto updateCustomer(CustomerDto CustomerDto, String id);
+    Customer updateCustomer(Customer Customer, String id);
 
 }

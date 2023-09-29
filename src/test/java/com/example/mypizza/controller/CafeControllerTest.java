@@ -1,13 +1,12 @@
 package com.example.mypizza.controller;
 
-import com.example.mypizza.dto.CafeDto;
+
+import com.example.mypizza.model.Cafe;
 import com.example.mypizza.service.util.CafeService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +27,10 @@ class CafeControllerTest {
 
     @Test
     void testGetAllCafes() {
-        List<CafeDto> cafes = new ArrayList<>();
+        List<Cafe> cafes = new ArrayList<>();
         when(cafeService.getCafeList()).thenReturn(cafes);
 
-        List<CafeDto> result = cafeController.getAllCafes();
+        List<Cafe> result = cafeController.getAllCafes();
 
         assertEquals(cafes, result);
     }
@@ -39,22 +38,22 @@ class CafeControllerTest {
     @Test
     void testGetCafeById() {
         String cafeId = "cafeId";
-        CafeDto cafe = new CafeDto();
+        Cafe cafe = new Cafe();
         when(cafeService.getCafeById(cafeId)).thenReturn(cafe);
 
-        CafeDto result = cafeController.getCafeById(cafeId);
+        Cafe result = cafeController.getCafeById(cafeId);
 
         assertEquals(cafe, result);
     }
 
     @Test
     void testCreateCafe() {
-        CafeDto cafeDto = new CafeDto();
-        when(cafeService.addCafe(cafeDto)).thenReturn(cafeDto);
+        Cafe cafe = new Cafe();
+        when(cafeService.addCafe(cafe)).thenReturn(cafe);
 
-        CafeDto result = cafeController.createCafe(cafeDto);
+        Cafe result = cafeController.createCafe(cafe);
 
-        assertEquals(cafeDto, result);
+        assertEquals(cafe, result);
     }
 
     @Test
@@ -69,12 +68,12 @@ class CafeControllerTest {
     @Test
     void testUpdateCafe() {
         String cafeId = "cafeId";
-        CafeDto cafeDto = new CafeDto();
-        when(cafeService.updateCafe(cafeDto, cafeId)).thenReturn(cafeDto);
+        Cafe cafe = new Cafe();
+        when(cafeService.updateCafe(cafe, cafeId)).thenReturn(cafe);
 
-        CafeDto result = cafeController.updateCafe(cafeId, cafeDto);
+        Cafe result = cafeController.updateCafe(cafeId, cafe);
 
-        assertEquals(cafeDto, result);
+        assertEquals(cafe, result);
     }
 
 }

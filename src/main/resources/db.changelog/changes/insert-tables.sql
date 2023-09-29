@@ -11,9 +11,6 @@ INSERT INTO cafe_data(id, cafe_name, phone, location, created_at)
 values ('a6d4f83c-8fa2-43c6-bec8-015187d4853e', 'Bavarian Brews', '+4976123456789',
         'Munchen, Schwanthalerstr. 8, 80336', timestamp('2023-09-15 10:30:00')
        );
-# INSERT INTO cafe_data(id, cafe_name, phone, location, created_at, pizza_id)
-# values ('98857ae2-22d4-4725-b27d-c3c9943a5aab', 'Domino', '+4912345678901', 'Munchen, Leopoldstr. 123, 80802',
-#         timestamp('2023-09-15 10:30:00'), '7a1ec8f9-56b7-4b99-8e9e-fab8dd27f6c2');
 
 INSERT INTO pizza_data (id, created_at, `description`, pizza_name, size, price,cafe_id)
 VALUES ('88857ae2-22d4-4725-b27d-c3c9943a5aab', timestamp('2023-09-15 10:30:00'), 'Classic tomato and mozzarella',

@@ -1,20 +1,18 @@
 package com.example.mypizza.service.impl;
 
-import com.example.mypizza.dto.CafeDto;
 
-import com.example.mypizza.mapper.CafeMapper;
 import com.example.mypizza.model.Cafe;
+import com.example.mypizza.model.Pizza;
 import com.example.mypizza.repository.CafeRepository;
 import com.example.mypizza.service.exeption.CafeNotFoundException;
 import com.example.mypizza.service.exeption.ErrorMessage;
+import com.example.mypizza.service.exeption.PizzaNotFoundException;
 import com.example.mypizza.service.util.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 
 /**
@@ -30,52 +28,40 @@ public class CafeServiceImpl implements CafeService {
     private final CafeRepository cafeRepository;
 
     /**
-     * The mapper for converting between Cafe and CafeDto objects.
-     */
-    private final CafeMapper cafeMapper;
-
-    /**
      * Get a list of all cafes.
      *
-     * @return List of CafeDto objects representing cafes.
+     * @return List of Cafe objects representing cafes.
      */
     @Override
-    public List<CafeDto> getCafeList() {
-        List<Cafe> cafes=cafeRepository.findAll();
-        return cafes.stream()
-                .map(cafeMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<Cafe> getCafeList() {
+        return cafeRepository.findAll();
     }
-/**@Override
-public List<OrderDto> getAllOrders() {
-List<Order> orders = orderRepository.findAll();
-return orders.stream()
-.map(orderMapper::toDto)
-.collect(Collectors.toList());
-}
- */
+
     /**
      * Get cafe information by ID.
      *
      * @param id The ID of the cafe.
-     * @return CafeDto representing the cafe.
+     * @return Cafe representing the cafe.
      * @throws CafeNotFoundException if the cafe with the given ID is not found.
      */
     @Override
-    public CafeDto getCafeById(String id) {
-        return cafeMapper.toDTO(cafeRepository.findCafeById(id).orElseThrow(() -> new CafeNotFoundException(ErrorMessage.CAFE_NOT_FOUND)));
+    public Cafe getCafeById(String id) {
+        Optional<Cafe> cafe = cafeRepository.findCafeById(id);
+        if (cafe.isPresent()) {
+            return cafe.get();
+        } else throw new CafeNotFoundException(ErrorMessage.CAFE_NOT_FOUND);
     }
 
     /**
      * Create a new cafe.
      *
-     * @param cafeDto The cafe object to be created.
-     * @return CafeDto representing the created cafe.
+     * @param cafe The cafe object to be created.
+     * @return Cafe representing the created cafe.
      */
     @Override
-    public CafeDto addCafe(CafeDto cafeDto) {
-        Cafe cafe = cafeMapper.toEntity(cafeDto);
-        return cafeMapper.toDTO(cafe);
+    public Cafe addCafe(Cafe cafe) {
+
+        return cafeRepository.save(cafe);
     }
 
     /**
@@ -86,31 +72,65 @@ return orders.stream()
      */
     @Override
     public void deleteCafeById(String id) {
-        Optional<Cafe> existingCafe = cafeRepository.findById(id);
+        Optional<Cafe> existingCafe = cafeRepository.findCafeById(id);
         if (existingCafe.isPresent()) {
-            cafeRepository.deleteCafeById(id);
+            cafeRepository.deleteById(id);
         } else {
             throw new CafeNotFoundException(ErrorMessage.CAFE_NOT_FOUND);
         }
     }
 
     /**
-     * Update cafe information by ID.
+     * Updates an existing cafe with the provided information.
      *
-     * @param cafeDto The updated cafe object.
-     * @param id      The ID of the cafe to be updated.
-     * @return CafeDto representing the updated cafe.
+     * @param updatecafe The updated cafe information.
+     * @param id         The ID of the cafe to update.
+     * @return The updated cafe.
      * @throws CafeNotFoundException if the cafe with the given ID is not found.
      */
     @Override
-    public CafeDto updateCafe(CafeDto cafeDto, String id) {
-        Optional<Cafe> existingCafe = cafeRepository.findById(id);
-        Cafe cafe = cafeMapper.toEntity(cafeDto);
-        if (existingCafe.isPresent()) {
-            cafeDto.setId(id);
-            return cafeMapper.toDTO(cafeRepository.save(cafe));
+    public Cafe updateCafe(Cafe updatecafe, String id) {
+        Optional<Cafe> optionalCafe = cafeRepository.findById(id);
+        if (optionalCafe.isPresent()) {
+            Cafe existingCafe = optionalCafe.get();
+            existingCafe.setName(updatecafe.getName());
+            existingCafe.setLocation(updatecafe.getLocation());
+            existingCafe.setPhone(updatecafe.getPhone());
+            return cafeRepository.save(existingCafe);
         } else {
             throw new CafeNotFoundException(ErrorMessage.ID_NOT_FOUND);
         }
+    }
+
+    /**
+     * Finds a cafe based on the name of a pizza associated with it.
+     *
+     * @param pizzaName The name of the pizza to find the associated cafe.
+     * @return The cafe associated with the given pizza name.
+     * @throws CafeNotFoundException if no cafe is associated with the pizza name.
+     */
+    @Override
+    public Cafe findCafeByPizzaName(String pizzaName) {
+        Cafe cafe = cafeRepository.findCafeByPizzaName(pizzaName);
+        if (cafe == null) {
+            throw new CafeNotFoundException(ErrorMessage.CAFE_NOT_FOUND);
+        }
+        return cafe;
+    }
+
+    /**
+     * Finds a list of pizzas associated with a cafe by its name.
+     *
+     * @param cafeName The name of the cafe to find pizzas for.
+     * @return List of pizzas associated with the given cafe name.
+     * @throws PizzaNotFoundException if no pizzas are associated with the cafe name.
+     */
+    @Override
+    public List<Pizza> findPizzasByCafeName(String cafeName) {
+        List<Pizza> pizzaList = cafeRepository.findAllPizzaByCafeName(cafeName);
+        if (pizzaList.isEmpty()) {
+            throw new PizzaNotFoundException(ErrorMessage.PIZZA_NOT_FOUND);
+        }
+        return pizzaList;
     }
 }
