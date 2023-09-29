@@ -131,6 +131,23 @@ Operations/Functions:
 1. Selecting a café and viewing pizzas
 2. Selecting a pizza
 
+## Technologies:
+
+- Java
+- Spring Boot
+- Spring Security
+- Spring MVC
+- MySQL
+- Spring Data JPA
+- Rest API
+- JUnit
+- Mockito
+- Maven
+- Lombok 
+- Hibernate
+- Liquibase 
+
+
 
 
 
